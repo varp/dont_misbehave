@@ -1,4 +1,7 @@
 class HomeController < ApplicationController
-  def index    
+  def index
+    unless params[:page].nil?
+      @page_num = params[:page]
+    end    
   end
 end
