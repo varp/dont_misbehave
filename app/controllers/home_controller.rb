@@ -24,6 +24,7 @@ class HomeController < ApplicationController
       b.save
     else
       b = nil
+      forbidden
     end
 
   end
