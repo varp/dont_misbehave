@@ -24,7 +24,7 @@ class HomeController < ApplicationController
       b.save
     else
       b = nil
-      forbidden
+      forbidden unless ENV['MISBEHAVE_ADMIN_IP'] == request.remote_ip
     end
 
   end
