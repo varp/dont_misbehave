@@ -1,3 +1,5 @@
+require 'resolv'
+
 class HomeController < ApplicationController
   def index
     unless params[:page].nil?
@@ -5,7 +7,34 @@ class HomeController < ApplicationController
       unless (1..3).include? @page_num.to_i
         not_found
       end
-    end    
-    
+    end
+
+    b = Bot.new
+    b.ip         = request.remote_ip
+    b.user_agent = request.headers["User-Agent"]
+    b.hostname   = begin
+      Resolv.getname b.ip  
+    rescue
+      nil
+    end
+
+    b.is_crawler = true if crawler?(b.user_agent)
+
+    if b.valid?    
+      b.save
+    else
+      b = nil
+    end
+
   end
+
+  private 
+
+    def crawler?(user_agent)
+      if user_agent =~ /.*(bingbot|msnbot|bingpreview|yandex\.com\/bots|google).*/i
+        return true
+      end
+      false
+    end
+
 end

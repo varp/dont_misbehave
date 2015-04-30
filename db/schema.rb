@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150428125034) do
+ActiveRecord::Schema.define(version: 20150430074213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,8 +19,10 @@ ActiveRecord::Schema.define(version: 20150428125034) do
   create_table "bots", force: :cascade do |t|
     t.string   "ip"
     t.string   "hostname"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "user_agent"
+    t.boolean  "is_crawler", default: false
   end
 
 end
