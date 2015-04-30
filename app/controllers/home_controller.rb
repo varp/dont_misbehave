@@ -15,7 +15,7 @@ class HomeController < ApplicationController
     b = Bot.new
     b.ip         = request.remote_ip
     b.user_agent = request.headers["User-Agent"]
-    b.hostname   = nil
+    b.hostname   = ""
 
     b.is_crawler = true if crawler?(b.user_agent)
     b.save
