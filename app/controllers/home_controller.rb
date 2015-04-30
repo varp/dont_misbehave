@@ -9,18 +9,23 @@ class HomeController < ApplicationController
       end
     end
 
+    return forbidden if Bot.find_by(ip: request.remote_ip) && 
+        ENV['MISBEHAVE_ADMIN_IP'] != request.remote_ip
+
     b = Bot.new
     b.ip         = request.remote_ip
     b.user_agent = request.headers["User-Agent"]
     b.hostname   = nil
-    b.is_crawler = true if crawler?(b.user_agent)
 
-    if b.valid?    
-      b.save
-    else
-      b = nil
-      forbidden unless ENV['MISBEHAVE_ADMIN_IP'] == request.remote_ip
-    end
+    b.is_crawler = true if crawler?(b.user_agent)
+    b.save
+
+    # if b.valid?    
+    #   b.save
+    # else
+    #   b = nil
+    #   forbidden unless ENV['MISBEHAVE_ADMIN_IP'] == request.remote_ip
+    # end
 
   end
 
