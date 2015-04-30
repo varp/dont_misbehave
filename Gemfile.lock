@@ -201,6 +201,9 @@ GEM
       railties (~> 4.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    uglifier (2.7.1)
+      execjs (>= 0.3.0)
+      json (>= 1.8.0)
     web-console (2.1.2)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
@@ -231,5 +234,6 @@ DEPENDENCIES
   therubyracer
   turbolinks
   twitter-bootstrap-rails
+  uglifier
   web-console (~> 2.0)
   zeus

@@ -7,8 +7,9 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'bcrypt', '~> 3.1.7'
-gem "twitter-bootstrap-rails"
-gem "therubyracer"
+gem 'twitter-bootstrap-rails'
+gem 'therubyracer'
+gem 'uglifier'
 
 
 group :development, :test do
