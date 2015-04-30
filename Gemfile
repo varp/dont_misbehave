@@ -10,11 +10,11 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'twitter-bootstrap-rails'
 gem 'therubyracer'
 gem 'uglifier'
+gem 'thin'
 
 
 group :development, :test do
   gem 'guard'
-  gem 'guard-rails'
   gem 'guard-zeus'
   gem 'zeus'  
   gem 'byebug'
