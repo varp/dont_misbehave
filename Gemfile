@@ -11,6 +11,8 @@ gem 'twitter-bootstrap-rails'
 gem 'therubyracer'
 gem 'uglifier'
 gem 'thin'
+gem 'sidekiq'
+gem 'clockwork'
 
 
 group :development, :test do

@@ -1,41 +1,41 @@
-require 'resolv'
-
 class HomeController < ApplicationController
   def index
     unless params[:page].nil?
-      @page_num = params[:page]   
+      @page_num = params[:page]
       unless (1..3).include? @page_num.to_i
         not_found
       end
     end
 
-    return forbidden if Bot.find_by(ip: request.remote_ip) && 
+    save_hit
+
+    bot = Bot.find_by(ip: request.remote_ip)
+    return forbidden if bot && bot.is_blocked && 
         ENV['MISBEHAVE_ADMIN_IP'] != request.remote_ip
 
-    b = Bot.new
+    b            = Bot.new
     b.ip         = request.remote_ip
     b.user_agent = request.headers["User-Agent"]
-    b.hostname   = ""
-
-    b.is_crawler = true if crawler?(b.user_agent)
-    b.save
-
-    # if b.valid?    
-    #   b.save
-    # else
-    #   b = nil
-    #   forbidden unless ENV['MISBEHAVE_ADMIN_IP'] == request.remote_ip
-    # end
+    b.is_crawler = true if crawler?
+    if b.save
+      ResolvWorker.perform_async(b.id)
+    end
 
   end
 
   private 
 
-    def crawler?(user_agent)
-      if user_agent =~ /.*(bingbot|msnbot|bingpreview|yandex\.com\/bots|google).*/i
+    def crawler?
+      if request.headers['User-Agent'] =~ /.*(bingbot|msnbot|bingpreview|yandex\.com\/bots|google).*/i
         return true
       end
       false
+    end
+
+    def save_hit
+      hit = Hit.new request.remote_ip, request.headers['User-Agent'], 
+                            request.headers['Referer']
+      hit.save!
     end
 
 end
