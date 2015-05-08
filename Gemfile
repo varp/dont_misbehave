@@ -1,3 +1,4 @@
+ruby '2.2.2'
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.1'
@@ -13,6 +14,7 @@ gem 'uglifier'
 gem 'thin'
 gem 'sidekiq'
 gem 'clockwork'
+gem 'rails_12factor'
 
 
 group :development, :test do
