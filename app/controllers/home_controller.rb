@@ -33,8 +33,11 @@ class HomeController < ApplicationController
     end
 
     def save_hit
-      hit = Hit.new request.remote_ip, request.headers['User-Agent'], 
-                            request.headers['Referer']
+      hit = Hit.new
+      hit.ip         = request.remote_ip
+      hit.user_agent = request.headers['User-Agent']
+      hit.referer    = request.headers['Referer']
+      hit.path       = request.original_fullpath
       hit.save!
     end
 
