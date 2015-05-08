@@ -13,12 +13,15 @@ class HomeController < ApplicationController
     return forbidden if bot && bot.is_blocked && 
         ENV['MISBEHAVE_ADMIN_IP'] != request.remote_ip
 
-    b            = Bot.new
-    b.ip         = request.remote_ip
-    b.user_agent = request.headers["User-Agent"]
-    b.is_crawler = true if crawler?
-    if b.save
-      ResolvWorker.perform_async(b.id)
+
+    unless bot
+      b            = Bot.new
+      b.ip         = request.remote_ip
+      b.user_agent = request.headers["User-Agent"]
+      b.is_crawler = true if crawler?
+      if b.save
+        ResolvWorker.perform_async(b.id)
+      end
     end
 
   end
